@@ -54,11 +54,17 @@ int main() {
                 continue; 
             }
             int tableSize = BtPrime(HashingInfo.size() * 1.5);
-            std::vector<HashingNode> hashinTable(tableSize);
+            std::vector<HashingNode> quadraticTable(tableSize);
 
-            
+
         } else if (verb == "2") {
+            if (HashingInfo.size() == 0) {
+                std::cout << "### Command 1 first. ###\n\n";
+                continue;
+            }
 
+            int tableSize = BtPrime(HashingInfo.size() * 1.5);
+            std::vector<HashingNode> doubleTable(tableSize);
         } 
         /*else if (verb == "3") {
             
@@ -77,6 +83,7 @@ int main() {
 /**********************************************************************/
 
 void PrintMenu() {
+    std::cout << std::endl;
     std::cout << "* Data Structures and Algorithms *" << std::endl;
     std::cout << "****** Balanced Search Tree ******" << std::endl;
     std::cout << "* 0. QUIT                        *" << std::endl;
@@ -157,6 +164,7 @@ bool SetInfo(std::vector<HashingNode> &HashingInfo) {
 }
 
 bool ChangeFile(std::string filename , std::string outputName) {
+    std::cout << "### " << outputName << " does not exist! ###\n";
     std::ifstream fin(filename);
     if (!fin.is_open()) {
         std::cout << "\n### " << filename << " does not exist! ###\n";
