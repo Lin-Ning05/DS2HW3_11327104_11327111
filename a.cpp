@@ -144,21 +144,23 @@ void GetN(std::string temp , int &n) {
 bool SetInfo(std::vector<HashingNode> &HashingInfo) {
     std::string fileName;
     std::string outputName;
-    do {
-        std::cout << "\nInput a file number ([0] Quit): ";
-        std::string num;
-        std::cin >> num;
-        num = RemoveSpace(num);
-        fileName = "input" + num + ".txt";
-        outputName = "input" + num + ".bin";
-        std::ifstream fin(outputName);
-        if (fin.is_open()) {
-            ReadBin(outputName , HashingInfo); //讀二進為檔的
-            return true;
-        }
-        if (fileName == "input0.txt") return false;
+
+    std::cout << "\nInput a file number ([0] Quit): ";
+    std::string num;
+    std::cin >> num;
+    num = RemoveSpace(num);
+    fileName = "input" + num + ".txt";
+    outputName = "input" + num + ".bin";
+    if (fileName == "input0.txt") return false;
+
+    std::ifstream fin(outputName);
+    if (fin.is_open()) {
+        ReadBin(outputName , HashingInfo); //讀二進為檔的
+        return true;
     }
-    while (!ChangeFile(fileName , outputName));
+
+    if (!ChangeFile(fileName , outputName)) return false;
+    
     ReadBin(outputName , HashingInfo);
     return true;
 }
@@ -238,3 +240,4 @@ int BtPrime(int num) {
         }
     }
 }
+
