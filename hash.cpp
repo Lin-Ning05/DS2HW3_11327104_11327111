@@ -58,13 +58,19 @@ class Hash {
             HashingNode toInsert = HashingInfo[i];
             int index = HashFunction(toInsert.sid);
             toInsert.hvalue = index;
+
+            bool find = true;
             while (Collision(index)) {
                 int step = Step(0);
                 index = toInsert.hvalue + step;
                 index %= tableSize;
                 //無窮迴圈
-
+                if (index == toInsert.hvalue) {
+                    find = false;
+                    break;
+                }
             }
+            if (!find) continue;
             hashingTable[index] = toInsert;
         }
     }
