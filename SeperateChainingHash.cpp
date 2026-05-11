@@ -319,17 +319,13 @@ void Hash::WriteInfo(std::string outputName) {
     std::ofstream fout(outputName, std::ios::app); // 接在後面
     for (int i = 0 ; i < tableSize ; i++) {
         fout << "[" << std::setw(3) << i << "]";
-        std::cout << "[" << std::setw(3) << i << "]";
         if (!hashingTable[i].used) {
             fout << " " << std::endl;
-            std::cout << " " << std::endl;
             continue;
         }
         HashingNode *temp = &hashingTable[i];
         do {
             fout << std::setw(11) << temp->hvalue << ", " << std::setw(10) << temp->sid << ", " <<
-                std::setw(10) << temp->sname << ", " << std::setw(10) << temp->average << std::endl;
-            std::cout << std::setw(11) << temp->hvalue << ", " << std::setw(10) << temp->sid << ", " <<
                 std::setw(10) << temp->sname << ", " << std::setw(10) << temp->average << std::endl;
             temp = temp->next;
         }
