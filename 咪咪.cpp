@@ -78,7 +78,7 @@ class Hash { //以線性為基礎款
             }
         }
         if (hashingTable[index].used && strcmp(hashingTable[index].sid, target) == 0) {
-            std::cout << "{ " << toSearch << ", " << hashingTable[index].sname << ", " << hashingTable[index].average <<
+            std::cout << "{ " << toSearch << ", " << hashingTable[index].sname << ", " << std::defaultfloat << hashingTable[index].average <<
                  " } is found after " << compare << " probes."  << std::endl;
         } else {
             std::cout << toSearch << " is not found after " << compare << " probes." << std::endl;
@@ -135,12 +135,13 @@ int main() {
             quadraticHash.WriteFile(num);
 
             std::string toFind;
-            do {
+            while (true) {
                 std::cout << "Input a student ID to search ([0] Quit): ";
                 std::cin >> toFind;
                 toFind = RemoveSpace(toFind);
+                if (toFind == "0") break;
                 quadraticHash.Search(toFind);
-            } while(toFind != "0");
+            }
 
         } else if (verb == "2") {
             if (HashingInfo.size() == 0) {
@@ -152,12 +153,13 @@ int main() {
             doubleHash.WriteFile(num);
 
             std::string toFind;
-            do {
+            while (true) {
                 std::cout << "Input a student ID to search ([0] Quit): ";
                 std::cin >> toFind;
                 toFind = RemoveSpace(toFind);
+                if (toFind == "0") break;
                 doubleHash.Search(toFind);
-            } while(toFind != "0");
+            }
         } else {
             std::cout << "\nCommand does not exist!\n\n";
         }
@@ -395,7 +397,7 @@ float Hash::CountExist(std::vector<HashingNode>& HashingInfo) {
         int n = 1;
 
         while (hashingTable[index].used &&strcmp(hashingTable[index].sid, target.sid) != 0) {
-            if (!hashingTable[index].used) break; // 找到沒東西的格子
+            if (n > tableSize) break; // 找太多次
             index = (initial + Step(n, target.sid)) % tableSize;
             n++;
             compare++;
@@ -409,7 +411,6 @@ float Hash::CountExist(std::vector<HashingNode>& HashingInfo) {
 
     return (float)total / exist;
 }
-
 
 //------------------------QuadraticHash--------------------------
 float QuadraticHash::CountNotExist() {
