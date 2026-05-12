@@ -16,6 +16,7 @@ struct Node {
 };
 
 struct HashingNode {
+    int num;
     int hvalue;
 	char sid[10] = {'\0'};
 	char sname[10];
@@ -176,8 +177,6 @@ void PrintMenu() {
     std::cout << "* 0. QUIT                        *" << std::endl;
     std::cout << "* 1. Quadratic probing           *" << std::endl;
     std::cout << "* 2. Double hashing              *" << std::endl;
-    //std::cout << "* 3. Build a min-max heap        *" << std::endl;
-    //std::cout << "* 4: Top-K max from min-max heap *" << std::endl;
     std::cout << "**********************************" << std::endl;
     std::cout << "Input a choice(0, 1, 2): ";
     return;
@@ -329,6 +328,7 @@ int BtPrime(int num) {
 }
 
 //---------------------------Hash-----------------------------
+
 void Hash::WriteInfo(std::string outputName) {
     std::ofstream fout(outputName, std::ios::app); // 接在後面
     for (int i = 0 ; i < tableSize ; i++) {
@@ -362,6 +362,7 @@ bool Hash::Collision(int index) {//判斷有沒有撞 撞了是true
 void Hash::Insert(std::vector<HashingNode> HashingInfo) {
     for (int i = 0 ; i < HashingInfo.size() ; i++) {
         HashingNode toInsert = HashingInfo[i];
+        toInsert.num = i;
         int index = HashFunction(toInsert.sid);
         toInsert.hvalue = index;
 
@@ -398,14 +399,14 @@ float Hash::CountExist(std::vector<HashingNode>& HashingInfo) {
 
         int n = 1;
 
-        while (hashingTable[index].used &&strcmp(hashingTable[index].sid, target.sid) != 0) {
+        while (hashingTable[index].used && i != hashingTable[index].num) {
             if (n > tableSize) break; // 找太多次
             index = (initial + Step(n, target.sid)) % tableSize;
             n++;
             compare++;
         }
 
-        if (hashingTable[index].used && strcmp(hashingTable[index].sid, target.sid) == 0) {
+        if (hashingTable[index].used && i == hashingTable[index].num) {
             total += compare;
             exist++;
         }
@@ -440,8 +441,8 @@ float QuadraticHash::CountNotExist() {
 }
 
 void QuadraticHash::Create(std::vector<HashingNode> HashingInfo) {
-    std::cout << "\nHash table has been successfully created by Quadratic probing" << std::endl;
     Insert(HashingInfo);
+    std::cout << "\nHash table has been successfully created by Quadratic probing" << std::endl;
     std::cout << "unsuccessful search: " << std::fixed << std::setprecision(4) << CountNotExist() <<
                 " comparisons on average" << std::endl;
     std::cout << "successful search: " << std::fixed << std::setprecision(4) << CountExist(HashingInfo) <<
